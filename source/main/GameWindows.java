@@ -1,4 +1,5 @@
 package source.main;
-public class Gamewindow {
+
+public class GameWindows {
     
 }
