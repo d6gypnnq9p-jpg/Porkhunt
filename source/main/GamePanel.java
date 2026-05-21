@@ -1,5 +1,5 @@
 package source.main;
 
-public class GamePanel {
+public class GamePanel { // Zeichenfläche
     
 }
