@@ -10,7 +10,7 @@ public class Game {
     private Player player;
 
     public Game() {
-        gamePanel = new GamePanel();
+        gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         player = new Player();
     }
