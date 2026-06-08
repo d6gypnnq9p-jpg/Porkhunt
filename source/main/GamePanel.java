@@ -15,7 +15,7 @@ public class GamePanel extends JPanel{ // Zeichenfläche
 	}
 
     private void setPanelSize() {
-        Dimension size = new Dimension(400, 400);
+        Dimension size = new Dimension(800, 400);
 		setPreferredSize(size);
     }
 }
