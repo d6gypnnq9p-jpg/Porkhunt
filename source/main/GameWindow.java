@@ -1,23 +1,37 @@
 package source.main;
 
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
+
 import javax.swing.JFrame;
 
 public class GameWindow {
-    private JFrame jFrame;
-    
-    public GameWindow(GamePanel gamePanel) {
-        jFrame = new JFrame();
+	private JFrame jframe;
 
+	public GameWindow(GamePanel gamePanel) {
 
-        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Beendet das Programm, wenn das Fenster geschlossen wird
-		jFrame.add(gamePanel); // Panel und Fenster verbinden
-		jFrame.setResizable(false);
-		jFrame.pack(); // Fenster an GamePanel anpassen
-		jFrame.setTitle("Porkhunt");
-		jFrame.setExtendedState(jFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-		jFrame.setLocationRelativeTo(null); // Fenster erscheint in der Mitte des Bildschirms
-		jFrame.setVisible(true); // Macht das Fenster sichtbar (MUSS GENAU HIER STEHEN, sonst entsteht in seltenen Fällen ein leeres Fenster)
-		//jFrame.addWindowFocusListener(new WindowFocusListener() { // wenn man runter vom fenster geht
-			
-    }
+		jframe = new JFrame();
+
+		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jframe.add(gamePanel);
+		jframe.setLocationRelativeTo(null);
+		jframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		jframe.pack();
+		jframe.setVisible(true);
+		jframe.addWindowFocusListener(new WindowFocusListener() {
+
+			@Override
+			public void windowLostFocus(WindowEvent e) {
+				gamePanel.getGame().windowFocusLost();
+			}
+
+			@Override
+			public void windowGainedFocus(WindowEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+	}
+
 }
