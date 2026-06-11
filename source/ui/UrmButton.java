@@ -1,4 +1,4 @@
-package source.ui;
+/*package source.ui;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -60,3 +60,4 @@ public class UrmButton extends PauseButton {
 	}
 
 }
+*/
