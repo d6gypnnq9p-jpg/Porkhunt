@@ -7,8 +7,6 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
-import source.main.Game;
-
 public class LoadSave {
 
 	public static final String PLAYER_ATLAS = "pig_player.png";
@@ -48,7 +46,7 @@ public class LoadSave {
         for (int i = 0; i < img.getWidth(); i++) {
             Color color = new Color(img.getRGB(i, j));
             int value = color.getRed();
-            if (value >= 2)
+            if (value >= 10)
                 value = 0;
 
             lvlData[j][i] = value;

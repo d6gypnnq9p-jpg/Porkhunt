@@ -146,7 +146,7 @@ public class Player extends Entity {
 
 		BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
 
-		animations = new BufferedImage[1][2];
+		animations = new BufferedImage[2][2];
 		for (int j = 0; j < animations.length; j++)
 			for (int i = 0; i < animations[j].length; i++)
 				animations[j][i] = img.getSubimage(i * 32, j * 32, 32, 32);
