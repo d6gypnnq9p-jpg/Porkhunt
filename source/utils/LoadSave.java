@@ -11,10 +11,9 @@ import source.main.Game;
 
 public class LoadSave {
 
-	public static final String PLAYER_ATLAS = "player_sprites.png";
+	public static final String PLAYER_ATLAS = "pig_player.png";
 	public static final String LEVEL_ATLAS = "boden.png";
-	public static final String LEVEL_ONE_DATA = "level_one_data.png";
-	//public static final String LEVEL_ONE_DATA = "level_one_data_long.png";
+	public static final String LEVEL_ONE_DATA = "Level.png";
 	public static final String MENU_BUTTONS = "button_atlas.png";
 	public static final String MENU_BACKGROUND = "menu_background.png";
 	public static final String PAUSE_BACKGROUND = "pause_menu.png";
