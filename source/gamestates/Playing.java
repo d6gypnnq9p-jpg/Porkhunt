@@ -7,21 +7,22 @@ import java.awt.event.MouseEvent;
 import source.entities.Player;
 import source.levels.LevelManager;
 import source.main.Game;
-import source.ui.PauseOverlay;
 import source.utils.LoadSave;
 
 public class Playing extends State implements Statemethods {
 	private Player player;
 	private LevelManager levelManager;
-	private PauseOverlay pauseOverlay;
 	private boolean paused = false;
 
 	private int xLvlOffset;
 	private int leftBorder = (int) (0.3 * Game.GAME_WIDTH);
-	private int rightBorder = (int) (0.7 * Game.GAME_WIDTH);
-	private int lvlTilesWide = LoadSave.GetLevelData()[0].length;
+	private int rightBorder = (int) (0.65 * Game.GAME_WIDTH); // Bildschrim beginnt bei 65% des sichtbaren Levels nach rechts zu scrollen
+	private int lvlTilesWide = LoadSave.GetLevelData()[0].length; // Wie weit das Level ist
 	private int maxTilesOffset = lvlTilesWide - Game.TILES_IN_WIDTH;
 	private int maxLvlOffsetX = maxTilesOffset * Game.TILES_SIZE;
+
+	private static float xSpawn = 200; // x Spawn Koordinate des Spielers
+	private static float ySpawn = 600; // y Spawn Koordinate des Spielers
 
 	public Playing(Game game) {
 		super(game);
@@ -30,9 +31,8 @@ public class Playing extends State implements Statemethods {
 
 	private void initClasses() {
 		levelManager = new LevelManager(game);
-		player = new Player(200, 400, (int) (32 * Game.SCALE), (int) (32 * Game.SCALE));
+		player = new Player(xSpawn, ySpawn, (int) (32 * Game.SCALE), (int) (32 * Game.SCALE));
 		player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
-		pauseOverlay = new PauseOverlay(this);
 	}
 
 	@Override
@@ -41,12 +41,10 @@ public class Playing extends State implements Statemethods {
 			levelManager.update();
 			player.update();
 			checkCloseToBorder();
-		} else {
-			pauseOverlay.update();
 		}
 	}
 
-	private void checkCloseToBorder() {
+	private void checkCloseToBorder() { // Muss der screen bewegt werden?
 		int playerX = (int) player.getHitbox().x;
 		int diff = playerX - xLvlOffset;
 
@@ -66,8 +64,6 @@ public class Playing extends State implements Statemethods {
 		levelManager.draw(g, xLvlOffset);
 		player.render(g, xLvlOffset);
 
-		if (paused)
-			pauseOverlay.draw(g);
 	}
 
 	@Override
@@ -78,17 +74,14 @@ public class Playing extends State implements Statemethods {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
-		case KeyEvent.VK_A:
+		case KeyEvent.VK_A: // Bewegung nach links
 			player.setLeft(true);
 			break;
-		case KeyEvent.VK_D:
+		case KeyEvent.VK_D: // Bewegung nach rechts
 			player.setRight(true);
 			break;
-		case KeyEvent.VK_SPACE:
+		case KeyEvent.VK_SPACE: // Springen
 			player.setJump(true);
-			break;
-		case KeyEvent.VK_ESCAPE:
-			paused = !paused;
 			break;
 		}
 	}
@@ -105,33 +98,29 @@ public class Playing extends State implements Statemethods {
 		case KeyEvent.VK_SPACE:
 			player.setJump(false);
 			break;
+		case KeyEvent.VK_BACK_SPACE:
+			player.resetPlayerPos();
+			break;
 		}
 
 	}
 
 	public void mouseDragged(MouseEvent e) {
-		if (paused)
-			pauseOverlay.mouseDragged(e);
+		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if (paused)
-			pauseOverlay.mousePressed(e);
-
+		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if (paused)
-			pauseOverlay.mouseReleased(e);
 
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		if (paused)
-			pauseOverlay.mouseMoved(e);
 
 	}
 
@@ -145,6 +134,14 @@ public class Playing extends State implements Statemethods {
 
 	public Player getPlayer() {
 		return player;
+	}
+
+	public static float getxSpawn() {
+		return 200;
+	}
+
+	public static float getySpawn() {
+		return 400;
 	}
 
 }

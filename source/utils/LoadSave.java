@@ -14,7 +14,6 @@ public class LoadSave {
 	public static final String LEVEL_ONE_DATA = "Level.png";
 	public static final String MENU_BUTTONS = "button_atlas.png";
 	public static final String MENU_BACKGROUND = "menu_background.png";
-	public static final String PAUSE_BACKGROUND = "pause_menu.png";
 	public static final String URM_BUTTONS = "urm_buttons.png";
 
 	public static BufferedImage GetSpriteAtlas(String fileName) {
@@ -41,12 +40,12 @@ public class LoadSave {
     // Dynamically size the array based on your updated Game constants
     int[][] lvlData = new int[img.getHeight()][img.getWidth()]; 
 
-    // Loop through all 16 rows using img.getHeight() or Game.TILES_IN_HEIGHT
+    
     for (int j = 0; j < img.getHeight(); j++) {
         for (int i = 0; i < img.getWidth(); i++) {
             Color color = new Color(img.getRGB(i, j));
             int value = color.getRed();
-            if (value >= 10)
+            if (value >= 48)
                 value = 0;
 
             lvlData[j][i] = value;

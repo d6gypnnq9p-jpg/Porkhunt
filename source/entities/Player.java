@@ -5,6 +5,7 @@ import static source.utils.HelpMethods.*;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import source.gamestates.Playing;
 import source.main.Game;
 import source.utils.LoadSave;
 
@@ -166,6 +167,13 @@ public class Player extends Entity {
 		down = false;
 	}
 
+	public void resetPlayerPos(){
+		hitbox.x = Playing.getxSpawn();
+		hitbox.y = Playing.getySpawn();
+		if (!IsEntityOnFloor(hitbox, lvlData))
+			inAir = true;
+	}
+
 	public boolean isLeft() {
 		return left;
 	}
@@ -201,5 +209,4 @@ public class Player extends Entity {
 	public void setJump(boolean jump) {
 		this.jump = jump;
 	}
-
 }

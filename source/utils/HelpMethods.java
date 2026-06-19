@@ -26,7 +26,7 @@ public class HelpMethods {
 
 		int value = lvlData[(int) yIndex][(int) xIndex];
 
-		if (value >= 48 || value < 0 || value != 9)
+		if (value >= 48 || value < 0 || value != 9) // Index 9 ist Luft
 			return true;
 		return false;
 	}
