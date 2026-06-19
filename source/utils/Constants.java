@@ -56,11 +56,11 @@ public class Constants {
 			case IDLE:
 				return 1;
 			case HIT:
-				return 4;
+				return 1;
 			case JUMP:
-				return 3;
+				return 1;
 			case GROUND:
-				return 2;
+				return 1;
 			case FALLING:
 			default:
 				return 1;
