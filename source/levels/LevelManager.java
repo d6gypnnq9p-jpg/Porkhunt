@@ -28,14 +28,13 @@ public class LevelManager {
 			}
 	}
 
-	public void draw(Graphics g) {
-    // Get the actual loaded data array
+	public void draw(Graphics g, int xLvlOffset) {
     int[][] data = levelOne.getLevelData();
 
-    for (int j = 0; j < data.length; j++) // Loops exactly 14 times (the height of your image)
-        for (int i = 0; i < data[j].length; i++) { // Loops exactly across the image width
+    for (int j = 0; j < data.length; j++) // Loop jede Höhe des Levels
+        for (int i = 0; i < data[j].length; i++) { // Loop jede Breite des Levels
             int index = levelOne.getSpriteIndex(i, j);
-            g.drawImage(levelSprite[index], Game.TILES_SIZE * i, Game.TILES_SIZE * j, Game.TILES_SIZE, Game.TILES_SIZE, null);
+            g.drawImage(levelSprite[index], Game.TILES_SIZE * i - xLvlOffset, Game.TILES_SIZE * j, Game.TILES_SIZE, Game.TILES_SIZE, null); // Textur zeichnen
         }
 	}
 
