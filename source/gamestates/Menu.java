@@ -11,7 +11,7 @@ import source.utils.LoadSave;
 
 public class Menu extends State implements Statemethods {
 
-	private MenuButton[] buttons = new MenuButton[3];
+	private MenuButton[] buttons = new MenuButton[2];
 	private BufferedImage backgroundImg;
 	private int menuX, menuY, menuWidth, menuHeight;
 
@@ -33,8 +33,8 @@ public class Menu extends State implements Statemethods {
 
 	private void loadButtons() {
 		buttons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (150 * Game.SCALE), 0, Gamestate.PLAYING);
-		buttons[1] = new MenuButton(Game.GAME_WIDTH / 2, (int) (220 * Game.SCALE), 1, Gamestate.OPTIONS);
-		buttons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (290 * Game.SCALE), 2, Gamestate.QUIT);
+		buttons[1] = new MenuButton(Game.GAME_WIDTH / 2, (int) (220 * Game.SCALE), 2, Gamestate.QUIT);
+		//buttons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (290 * Game.SCALE), 1, Gamestate.OPTIONS);
 	}
 
 	@Override

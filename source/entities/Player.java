@@ -6,8 +6,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import javax.swing.JLabel;
-
 import source.gamestates.Playing;
 import source.main.Game;
 import source.utils.LoadSave;
@@ -56,6 +54,7 @@ public class Player extends Entity {
 					-width, height,
 					null);
 		} else {
+			// Normal zeichnen
 			g2d.drawImage(animations[playerAction][aniIndex],
 					drawX, drawY,
 					width, height,
@@ -77,7 +76,7 @@ public class Player extends Entity {
 
 	}
 
-	private void setAnimation() {
+	private void setAnimation() { // playerAction anhand von was der Spieler gerade macht setzen
 		int startAni = playerAction;
 
 		if (moving)
@@ -104,27 +103,27 @@ public class Player extends Entity {
 	private void updatePos() {
 		moving = false;
 
-		if (jump)
+		if (jump) // Spieler springt
 			jump();
-		if (!left && !right && !inAir)
+		if (!left && !right && !inAir) // Wenn der Spieler nicht in der Luft ist und nicht nach rechts oder links läuft, abbrechen
 			return;
 
 		float xSpeed = 0;
 
-		if (left) {
+		if (left) { // Nach links bewegen
 			xSpeed -= playerSpeed;
 			facingLeft = true;
 		}
-		if (right) {
+		if (right) { // Nach rechts bewegen
 			xSpeed += playerSpeed;
 			facingLeft = false;
 		}
 
-		if (!inAir)
+		if (!inAir) // Falls gerade noch nicht in der Luft, schauen, ob der Spieler jetzt in der Luft ist
 			if (!IsEntityOnFloor(hitbox, lvlData))
 				inAir = true;
 
-		if (inAir) {
+		if (inAir) { // Falls der Spieler in der Luft ist, Schwerkraft anwenden
 			if (CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData)) {
 				hitbox.y += airSpeed;
 				airSpeed += gravity;
@@ -138,18 +137,17 @@ public class Player extends Entity {
 				updateXPos(xSpeed);
 			}
 
-		} else
+		} else // Falls der Spieler nicht in der Luft ist, normale Bewegung
 			updateXPos(xSpeed);
 
 		moving = true;
 	}
 
-	private void jump() {
+	private void jump() { // Springen
 		if (inAir)
 			return;
-		inAir = true;
+		inAir = true; // Spieler befindet sich jetzt in der Luft
 		airSpeed = jumpSpeed;
-
 	}
 
 	private void resetInAir() {
@@ -158,8 +156,8 @@ public class Player extends Entity {
 
 	}
 
-	private void updateXPos(float xSpeed) {
-		if (CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)) {
+	private void updateXPos(float xSpeed) { // Spieler in x Richtung bewegen
+		if (CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)) { // Kann man hierhin laufen?
 			hitbox.x += xSpeed;
 		} else {
 			hitbox.x = GetEntityXPosNextToWall(hitbox, xSpeed);
@@ -167,7 +165,7 @@ public class Player extends Entity {
 
 	}
 
-	private void loadAnimations() {
+	private void loadAnimations() { // Animationen laden
 
 		BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
 
@@ -178,26 +176,30 @@ public class Player extends Entity {
 
 	}
 
-	public void loadLvlData(int[][] lvlData) {
+	public void loadLvlData(int[][] lvlData) { // Level laden
 		this.lvlData = lvlData;
 		if (!IsEntityOnFloor(hitbox, lvlData))
 			inAir = true;
 
 	}
 
-	public void resetDirBooleans() {
+	public void resetDirBooleans() { // Bewegungen in alle Richtungen zurücksetzen
 		left = false;
 		right = false;
 		up = false;
 		down = false;
 	}
 
-	public void resetPlayerPos(){
+	public void resetPlayerPos(){ // Spielerposition zurücksetzen
 		hitbox.x = Playing.getxSpawn();
 		hitbox.y = Playing.getySpawn();
+		resetDirBooleans();
 		if (!IsEntityOnFloor(hitbox, lvlData))
 			inAir = true;
 	}
+
+
+	// Getter und Setter
 
 	public boolean isLeft() {
 		return left;
