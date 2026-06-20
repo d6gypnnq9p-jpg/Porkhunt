@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JLabel;
+
 import source.gamestates.Playing;
 import source.main.Game;
 import source.utils.LoadSave;

@@ -1,5 +1,7 @@
 package source.gamestates;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -12,20 +14,23 @@ import source.utils.LoadSave;
 public class Playing extends State implements Statemethods {
 	private Player player;
 	private LevelManager levelManager;
+	private Game game;
 	private boolean paused = false;
+	private boolean showControls = false;
 
 	private int xLvlOffset;
 	private int leftBorder = (int) (0.3 * Game.GAME_WIDTH);
-	private int rightBorder = (int) (0.65 * Game.GAME_WIDTH); // Bildschrim beginnt bei 65% des sichtbaren Levels nach rechts zu scrollen
-	private int lvlTilesWide = LoadSave.GetLevelData()[0].length; // Wie weit das Level ist
+	private int rightBorder = (int) (0.65 * Game.GAME_WIDTH);
+	private int lvlTilesWide = LoadSave.GetLevelData()[0].length;
 	private int maxTilesOffset = lvlTilesWide - Game.TILES_IN_WIDTH;
 	private int maxLvlOffsetX = maxTilesOffset * Game.TILES_SIZE;
 
-	private static float xSpawn = 200; // x Spawn Koordinate des Spielers
-	private static float ySpawn = 600; // y Spawn Koordinate des Spielers
+	private static float xSpawn = 200;
+	private static float ySpawn = 600;
 
 	public Playing(Game game) {
 		super(game);
+		this.game = game;
 		initClasses();
 	}
 
@@ -44,7 +49,7 @@ public class Playing extends State implements Statemethods {
 		}
 	}
 
-	private void checkCloseToBorder() { // Muss der screen bewegt werden?
+	private void checkCloseToBorder() {
 		int playerX = (int) player.getHitbox().x;
 		int diff = playerX - xLvlOffset;
 
@@ -64,30 +69,70 @@ public class Playing extends State implements Statemethods {
 		levelManager.draw(g, xLvlOffset);
 		player.render(g, xLvlOffset);
 
+		if (showControls)
+			drawControls(g);
+	}
+
+	private void drawControls(Graphics g) { // Tastenbelegung anzeigen
+		String[] lines = {
+			"Tastenbelegung",
+			"Tastenbelegung anzeigen: C",
+			"Bewegen:           A / D",
+			"Springen:           Space",
+			"Level zurücksetzen: Löschen"
+		};
+
+		int padding = 12;
+		int lineHeight = 22;
+		int boxWidth = 220;
+		int boxHeight = padding * 2 + lines.length * lineHeight;
+		int boxX = 20;
+		int boxY = 20;
+
+		// Hintergrund
+		g.setColor(new Color(0, 0, 0, 160));
+		g.fillRoundRect(boxX, boxY, boxWidth, boxHeight, 12, 12);
+
+		// Rand
+		g.setColor(new Color(255, 255, 255, 80));
+		g.drawRoundRect(boxX, boxY, boxWidth, boxHeight, 12, 12);
+
+		// Überschrift
+		g.setFont(new Font("Arial", Font.BOLD, 14));
+		g.setColor(Color.WHITE);
+		g.drawString(lines[0], boxX + padding, boxY + padding + lineHeight - 4);
+
+		// Einträge
+		g.setFont(new Font("Arial", Font.PLAIN, 13));
+		g.setColor(new Color(220, 220, 220));
+		for (int i = 1; i < lines.length; i++) {
+			g.drawString(lines[i], boxX + padding, boxY + padding + (i + 1) * lineHeight - 4);
+		}
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		
-	}
+	public void mouseClicked(MouseEvent e) { }
 
 	@Override
-	public void keyPressed(KeyEvent e) {
+	public void keyPressed(KeyEvent e) { // Eingabe des Spielers
 		switch (e.getKeyCode()) {
-		case KeyEvent.VK_A: // Bewegung nach links
+		case KeyEvent.VK_A:
 			player.setLeft(true);
 			break;
-		case KeyEvent.VK_D: // Bewegung nach rechts
+		case KeyEvent.VK_D:
 			player.setRight(true);
 			break;
-		case KeyEvent.VK_SPACE: // Springen
+		case KeyEvent.VK_SPACE:
 			player.setJump(true);
+			break;
+		case KeyEvent.VK_C:
+			showControls = !showControls;
 			break;
 		}
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
+	public void keyReleased(KeyEvent e) { // Eingabe des Spielers
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_A:
 			player.setLeft(false);
@@ -102,26 +147,21 @@ public class Playing extends State implements Statemethods {
 			player.resetPlayerPos();
 			break;
 		}
-
 	}
 
 	public void mouseDragged(MouseEvent e) {
-		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-
 	}
 
 	public void unpauseGame() {
@@ -135,5 +175,4 @@ public class Playing extends State implements Statemethods {
 	public static float getxSpawn() { return xSpawn; }
 
 	public static float getySpawn() { return ySpawn; }
-
 }
