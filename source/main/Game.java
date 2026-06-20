@@ -125,11 +125,7 @@ public class Game implements Runnable {
 			playing.getPlayer().resetDirBooleans();
 	}
 
-	public Menu getMenu() {
-		return menu;
-	}
+	public Menu getMenu() { return menu; }
 
-	public Playing getPlaying() {
-		return playing;
-	}
+	public Playing getPlaying() { return playing; }
 }

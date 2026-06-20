@@ -128,20 +128,12 @@ public class Playing extends State implements Statemethods {
 		paused = false;
 	}
 
-	public void windowFocusLost() {
-		player.resetDirBooleans();
-	}
+	public void windowFocusLost() { player.resetDirBooleans(); }
 
-	public Player getPlayer() {
-		return player;
-	}
+	public Player getPlayer() { return player; }
 
-	public static float getxSpawn() {
-		return 200;
-	}
+	public static float getxSpawn() { return xSpawn; }
 
-	public static float getySpawn() {
-		return 400;
-	}
+	public static float getySpawn() { return ySpawn; }
 
 }

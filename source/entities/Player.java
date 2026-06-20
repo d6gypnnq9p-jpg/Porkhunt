@@ -3,6 +3,7 @@ package source.entities;
 import static source.utils.Constants.PlayerConstants.*;
 import static source.utils.HelpMethods.*;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import source.gamestates.Playing;
@@ -15,6 +16,7 @@ public class Player extends Entity {
 	private int playerAction = IDLE;
 	private boolean moving = false;
 	private boolean left, up, right, down, jump;
+	private boolean facingLeft = false;
 	private float playerSpeed = 1.0f * Game.SCALE;
 	private int[][] lvlData;
 	private float xDrawOffset = 0 * Game.SCALE; // hitbox an richtige stelle in x Richtung verschieben
@@ -40,9 +42,24 @@ public class Player extends Entity {
 		setAnimation();
 	}
 
-	public void render(Graphics g , int xLvlOffset) {
-		g.drawImage(animations[playerAction][aniIndex], (int) (hitbox.x - xDrawOffset) - xLvlOffset, (int) (hitbox.y - yDrawOffset), width, height, null);
-		//drawHitbox(g); // Hitbox zeichnen; DEAKTIVIEREN WENN NICHT BENÖTIGT
+	public void render(Graphics g, int xLvlOffset) {
+		Graphics2D g2d = (Graphics2D) g;
+		int drawX = (int) (hitbox.x - xDrawOffset) - xLvlOffset;
+		int drawY = (int) (hitbox.y - yDrawOffset);
+
+		if (facingLeft) {
+			// Horizontal spiegeln
+			g2d.drawImage(animations[playerAction][aniIndex],
+					drawX + width, drawY,
+					-width, height,
+					null);
+		} else {
+			g2d.drawImage(animations[playerAction][aniIndex],
+					drawX, drawY,
+					width, height,
+					null);
+		}
+		drawHitbox(g); // Hitbox zeichnen; DEAKTIVIEREN WENN NICHT BENÖTIGT
 	}
 
 	private void updateAnimationTick() {
@@ -92,10 +109,14 @@ public class Player extends Entity {
 
 		float xSpeed = 0;
 
-		if (left)
+		if (left) {
 			xSpeed -= playerSpeed;
-		if (right)
+			facingLeft = true;
+		}
+		if (right) {
 			xSpeed += playerSpeed;
+			facingLeft = false;
+		}
 
 		if (!inAir)
 			if (!IsEntityOnFloor(hitbox, lvlData))
@@ -117,6 +138,8 @@ public class Player extends Entity {
 
 		} else
 			updateXPos(xSpeed);
+
+		moving = true;
 	}
 
 	private void jump() {
