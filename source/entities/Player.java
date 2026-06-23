@@ -29,6 +29,8 @@ public class Player extends Entity {
 	private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
 	private boolean inAir = false;
 
+	private boolean dead = false;
+
 	public Player(float x, float y, int width, int height) {
 		super(x, y, width, height);
 		loadAnimations();
@@ -198,8 +200,21 @@ public class Player extends Entity {
 			inAir = true;
 	}
 
+	public void death(){
+		resetPlayerPos();
+		dead = true;
+	}
+
 
 	// Getter und Setter
+
+	public boolean isDead() {
+		return dead;
+	}
+
+	public void setDead(boolean dead) {
+		this.dead = dead;
+	}
 
 	public boolean isLeft() {
 		return left;

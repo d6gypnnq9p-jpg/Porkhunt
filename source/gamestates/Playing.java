@@ -18,6 +18,8 @@ public class Playing extends State implements Statemethods {
 	private boolean paused = false;
 	private boolean showControls = false;
 
+	private int deathTicker;
+
 	private int xLvlOffset;
 	private int leftBorder = (int) (0.3 * Game.GAME_WIDTH);
 	private int rightBorder = (int) (0.65 * Game.GAME_WIDTH);
@@ -71,6 +73,32 @@ public class Playing extends State implements Statemethods {
 
 		if (showControls)
 			drawControls(g);
+		if(player.isDead()){
+			drawDeathScreen(g);
+			if(deathTicker < 300) {
+				deathTicker++;
+				System.out.println(deathTicker);
+			} else {
+				player.setDead(false);
+				deathTicker = 0;
+			}
+		}
+	}
+
+	private void drawDeathScreen(Graphics g) { // Tastenbelegung anzeigen
+		String[] lines = {
+			"GESTORBEN",
+		};
+
+		int padding = 12;
+		int lineHeight = 22;
+		int X = Game.GAME_WIDTH/2-150;
+		int Y = Game.GAME_HEIGHT/2-100;
+
+		// Überschrift
+		g.setFont(new Font("Arial", Font.BOLD, 40));
+		g.setColor(Color.RED);
+		g.drawString(lines[0], X + padding, Y + padding + lineHeight - 4);
 	}
 
 	private void drawControls(Graphics g) { // Tastenbelegung anzeigen
@@ -144,7 +172,7 @@ public class Playing extends State implements Statemethods {
 			player.setJump(false);
 			break;
 		case KeyEvent.VK_BACK_SPACE:
-			player.resetPlayerPos();
+			player.death();
 			break;
 		}
 	}
