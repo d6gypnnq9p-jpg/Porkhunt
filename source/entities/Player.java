@@ -62,7 +62,7 @@ public class Player extends Entity {
 					width, height,
 					null);
 		}
-		drawHitbox(g); // Hitbox zeichnen; DEAKTIVIEREN WENN NICHT BENÖTIGT
+		//drawHitbox(g); // Hitbox zeichnen; DEAKTIVIEREN WENN NICHT BENÖTIGT
 	}
 
 	private void updateAnimationTick() {
